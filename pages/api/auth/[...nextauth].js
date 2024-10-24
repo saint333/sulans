@@ -15,6 +15,7 @@ export default NextAuth({
           password: { label: "Password", type: "password", placeholder: "Ingrese la contraseña" }
         },
         async authorize(credentials) {
+          console.log("🚀 ~ authorize ~ credentials:", credentials)
           // Aquí deberías implementar la lógica para verificar las credenciales.
           // Este ejemplo asume que el usuario y la contraseña están correctos.
           const user = { id: 1, name: "David Granados", email: "david@example.com" };
