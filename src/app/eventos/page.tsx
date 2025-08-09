@@ -1,5 +1,6 @@
-import { Header } from '@/presentation/components/layout/header';
-import { Footer } from '@/presentation/components/layout/footer';
+import { PageLayout } from '@/presentation/components/layout/page-layout';
+import { PageHero } from '@/presentation/components/sections/page-hero';
+import { CallToAction } from '@/presentation/components/sections/call-to-action';
 import { Calendar, MapPin, Clock, Users, Star } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/presentation/components/ui/card';
 import { Button } from '@/presentation/components/ui/button';
@@ -11,59 +12,30 @@ import { formatDate } from '@/shared/utils/date.utils';
  */
 export default function EventsPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-950">
-      <Header />
-      
-      <main className="py-20 px-4">
-        <div className="container mx-auto">
-          {/* Hero Section */}
-          <div className="text-center mb-16">
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <div 
-                className="w-16 h-16 rounded-full flex items-center justify-center"
-                style={{
-                  background: `linear-gradient(to right, ${COLORS.PRIMARY}, ${COLORS.SECONDARY})`
-                }}
-              >
-                <Calendar className="h-8 w-8 text-white" />
-              </div>
-            </div>
-            <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-[#36d6fa] to-[#6366f1] bg-clip-text text-transparent mb-4">
-              Nuestros Eventos
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Los momentos más importantes de nuestra promoción {APP_CONFIG.GRADUATION_YEAR}
-            </p>
-          </div>
+    <PageLayout>
+      <PageHero
+        icon={Calendar}
+        title="Nuestros Eventos"
+        description={`Los momentos más importantes de nuestra promoción ${APP_CONFIG.GRADUATION_YEAR}`}
+      />
 
-          {/* Timeline */}
-          <div className="max-w-4xl mx-auto">
-            <div className="space-y-8">
-              {events.map((event, index) => (
-                <EventCard key={event.id} event={event} isLast={index === events.length - 1} />
-              ))}
-            </div>
-          </div>
-
-          {/* Call to Action */}
-          <div className="text-center mt-16">
-            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl p-8 max-w-2xl mx-auto shadow-xl border border-[#36d6fa]/20">
-              <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4">
-                ¿Tienes fotos de algún evento?
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">
-                Comparte tus recuerdos con toda la promoción
-              </p>
-              <Button variant="primary" size="lg">
-                Subir Fotos
-              </Button>
-            </div>
+      <div className="container mx-auto">
+        {/* Timeline */}
+        <div className="max-w-4xl mx-auto">
+          <div className="space-y-8">
+            {events.map((event, index) => (
+              <EventCard key={event.id} event={event} isLast={index === events.length - 1} />
+            ))}
           </div>
         </div>
-      </main>
-      
-      <Footer />
-    </div>
+      </div>
+
+      <CallToAction
+        title="¿Tienes fotos de algún evento?"
+        description="Comparte tus recuerdos con toda la promoción"
+        buttonText="Subir Fotos"
+      />
+    </PageLayout>
   );
 }
 

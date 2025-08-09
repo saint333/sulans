@@ -1,107 +1,73 @@
-import { Header } from '@/presentation/components/layout/header';
-import { Footer } from '@/presentation/components/layout/footer';
+import { PageLayout } from '@/presentation/components/layout/page-layout';
+import { PageHero } from '@/presentation/components/sections/page-hero';
+import { StatsCard } from '@/presentation/components/sections/stats-card';
+import { CallToAction } from '@/presentation/components/sections/call-to-action';
 import { Users, MapPin, Mail, Phone, Briefcase, Search, Filter } from 'lucide-react';
 import { Card, CardContent } from '@/presentation/components/ui/card';
 import { Button } from '@/presentation/components/ui/button';
-import { APP_CONFIG, COLORS } from '@/shared/constants/app.constants';
+import { APP_CONFIG } from '@/shared/constants/app.constants';
 import Image from 'next/image';
 
 /**
  * Página de estudiantes
  */
 export default function StudentsPage() {
+  const stats = [
+    { value: 35, label: 'Estudiantes' },
+    { value: 28, label: 'En contacto' },
+    { value: 15, label: 'Profesionales' },
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-950">
-      <Header />
-      
-      <main className="py-20 px-4">
-        <div className="container mx-auto">
-          {/* Hero Section */}
-          <div className="text-center mb-16">
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <div 
-                className="w-16 h-16 rounded-full flex items-center justify-center"
-                style={{
-                  background: `linear-gradient(to right, ${COLORS.PRIMARY}, ${COLORS.SECONDARY})`
-                }}
-              >
-                <Users className="h-8 w-8 text-white" />
-              </div>
-            </div>
-            <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-[#36d6fa] to-[#6366f1] bg-clip-text text-transparent mb-4">
-              Nuestra Promoción
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Conoce a todos los compañeros de la promoción {APP_CONFIG.GRADUATION_YEAR}
-            </p>
-          </div>
+    <PageLayout>
+      <PageHero
+        icon={Users}
+        title="Nuestra Promoción"
+        description={`Conoce a todos los compañeros de la promoción ${APP_CONFIG.GRADUATION_YEAR}`}
+      />
 
-          {/* Estadísticas */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl p-6 text-center shadow-xl border border-[#36d6fa]/20">
-              <div className="text-3xl font-bold text-[#36d6fa] mb-2">35</div>
-              <div className="text-gray-600 dark:text-gray-400">Estudiantes</div>
-            </div>
-            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl p-6 text-center shadow-xl border border-[#36d6fa]/20">
-              <div className="text-3xl font-bold text-[#36d6fa] mb-2">28</div>
-              <div className="text-gray-600 dark:text-gray-400">En contacto</div>
-            </div>
-            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl p-6 text-center shadow-xl border border-[#36d6fa]/20">
-              <div className="text-3xl font-bold text-[#36d6fa] mb-2">15</div>
-              <div className="text-gray-600 dark:text-gray-400">Profesionales</div>
-            </div>
-          </div>
+      <div className="container mx-auto">
+        {/* Estadísticas */}
+        <StatsCard stats={stats} />
 
-          {/* Filtros y búsqueda */}
-          <div className="mb-8">
-            <Card className="shadow-lg">
-              <CardContent className="p-6">
-                <div className="flex flex-col md:flex-row gap-4">
-                  <div className="flex-1">
-                    <div className="relative">
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                      <input
-                        type="text"
-                        placeholder="Buscar por nombre..."
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#36d6fa] focus:border-[#36d6fa] dark:bg-gray-700 dark:text-white"
-                      />
-                    </div>
+        {/* Filtros y búsqueda */}
+        <div className="mb-8">
+          <Card className="shadow-lg">
+            <CardContent className="p-6">
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="flex-1">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <input
+                      type="text"
+                      placeholder="Buscar por nombre..."
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#36d6fa] focus:border-[#36d6fa] dark:bg-gray-700 dark:text-white"
+                    />
                   </div>
-                  <Button variant="outline" className="flex items-center gap-2">
-                    <Filter className="h-4 w-4" />
-                    Filtrar
-                  </Button>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Grid de estudiantes */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {students.map((student) => (
-              <StudentCard key={student.id} student={student} />
-            ))}
-          </div>
-
-          {/* Call to Action */}
-          <div className="text-center mt-16">
-            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl p-8 max-w-2xl mx-auto shadow-xl border border-[#36d6fa]/20">
-              <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4">
-                ¿Falta tu información?
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">
-                Actualiza tu perfil y mantén el contacto con tus compañeros
-              </p>
-              <Button variant="primary" size="lg">
-                Actualizar mi perfil
-              </Button>
-            </div>
-          </div>
+                <Button variant="outline" className="flex items-center gap-2">
+                  <Filter className="h-4 w-4" />
+                  Filtrar
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
-      </main>
-      
-      <Footer />
-    </div>
+
+        {/* Grid de estudiantes */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-16">
+          {students.map((student) => (
+            <StudentCard key={student.id} student={student} />
+          ))}
+        </div>
+      </div>
+
+      <CallToAction
+        title="¿Falta tu información?"
+        description="Actualiza tu perfil y mantén el contacto con tus compañeros"
+        buttonText="Actualizar mi perfil"
+      />
+    </PageLayout>
   );
 }
 
