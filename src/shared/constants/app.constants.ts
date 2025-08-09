@@ -33,6 +33,7 @@ export const NAVIGATION = {
   STUDENTS: '/estudiantes',
   EVENTS: '/eventos',
   CONTACT: '/contacto',
+  LOGIN: '/login',
 } as const;
 
 /**

@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "SULANS",
-  description: "Sulans: Promocion del 2015-2019",
+  description: "SULANS: Promocion del 2015-2019",
 };
 
 export default function RootLayout({

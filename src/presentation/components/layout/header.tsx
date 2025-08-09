@@ -1,6 +1,7 @@
 import { GraduationCap } from 'lucide-react';
-import { COLORS, APP_CONFIG } from '../../../shared/constants/app.constants';
+import { COLORS, APP_CONFIG, NAVIGATION } from '../../../shared/constants/app.constants';
 import { ThemeToggle } from '../layout/theme-toggle';
+import Link from 'next/link';
 
 /**
  * Componente Header principal de la aplicación
@@ -30,9 +31,11 @@ export function Header() {
           </div>
 
           <nav className="hidden md:flex gap-6 items-center">
-            <HeaderLink href="#galeria">Galería</HeaderLink>
-            <HeaderLink href="#eventos">Eventos</HeaderLink>
-            <HeaderLink href="#contacto">Contacto</HeaderLink>
+            <HeaderLink href={NAVIGATION.GALLERY}>Galería</HeaderLink>
+            <HeaderLink href={NAVIGATION.EVENTS}>Eventos</HeaderLink>
+            <HeaderLink href={NAVIGATION.STUDENTS}>Estudiantes</HeaderLink>
+            <HeaderLink href={NAVIGATION.CONTACT}>Contacto</HeaderLink>
+            <HeaderLink href={NAVIGATION.LOGIN}>Iniciar Sesión</HeaderLink>
             <ThemeToggle />
           </nav>
 
@@ -55,11 +58,11 @@ interface HeaderLinkProps {
 
 function HeaderLink({ href, children }: HeaderLinkProps) {
   return (
-    <a 
+    <Link 
       href={href} 
       className="text-gray-600 dark:text-gray-300 hover:text-[#36d6fa] transition-colors font-medium"
     >
       {children}
-    </a>
+    </Link>
   );
 }
