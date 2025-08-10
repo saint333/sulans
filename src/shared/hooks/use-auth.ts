@@ -19,8 +19,8 @@ export function useAuth() {
         throw new Error('Credenciales inválidas');
       }
 
-      // Redirigir después del login exitoso
-      router.push('/');
+      // Redirigir al dashboard después del login exitoso
+      router.push('/dashboard');
       return { success: true };
     } catch (error) {
       return { 

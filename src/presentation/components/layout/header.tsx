@@ -45,6 +45,7 @@ export function Header() {
             {/* Links privados - solo para usuarios autenticados */}
             {isAuthenticated && (
               <>
+                <HeaderLink href={NAVIGATION.DASHBOARD}>Dashboard</HeaderLink>
                 <HeaderLink href={NAVIGATION.GALLERY}>Galería</HeaderLink>
                 <HeaderLink href={NAVIGATION.EVENTS}>Eventos</HeaderLink>
                 <HeaderLink href={NAVIGATION.STUDENTS}>Estudiantes</HeaderLink>

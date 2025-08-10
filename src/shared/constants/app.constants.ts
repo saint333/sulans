@@ -29,6 +29,7 @@ export const COLORS = {
  */
 export const NAVIGATION = {
   HOME: '/',
+  DASHBOARD: '/dashboard',
   GALLERY: '/galeria',
   STUDENTS: '/estudiantes',
   EVENTS: '/eventos',
