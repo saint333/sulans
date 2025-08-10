@@ -1,7 +1,9 @@
+'use client';
 import { PageLayout } from '@/presentation/components/layout/page-layout';
 import { PageHero } from '@/presentation/components/sections/page-hero';
 import { StatsCard } from '@/presentation/components/sections/stats-card';
 import { CallToAction } from '@/presentation/components/sections/call-to-action';
+import { SearchInput } from '@/presentation/components/ui/input';
 import { Users, MapPin, Mail, Phone, Briefcase, Search, Filter } from 'lucide-react';
 import { Card, CardContent } from '@/presentation/components/ui/card';
 import { Button } from '@/presentation/components/ui/button';
@@ -36,14 +38,11 @@ export default function StudentsPage() {
             <CardContent className="p-6">
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="flex-1">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                    <input
-                      type="text"
-                      placeholder="Buscar por nombre..."
-                      className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#36d6fa] focus:border-[#36d6fa] dark:bg-gray-700 dark:text-white"
-                    />
-                  </div>
+                  <SearchInput
+                    placeholder="Buscar por nombre..."
+                    icon={Search}
+                    onSearch={(value) => console.log('Buscando:', value)}
+                  />
                 </div>
                 <Button variant="outline" className="flex items-center gap-2">
                   <Filter className="h-4 w-4" />

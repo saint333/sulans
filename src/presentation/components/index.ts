@@ -15,3 +15,6 @@ export { ContactForm } from './forms/contact-form';
 // UI components
 export { Button } from './ui/button';
 export { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
+export { Input, PasswordInput, SearchInput } from './ui/input';
+export { Textarea } from './ui/textarea';
+export { Select } from './ui/select';

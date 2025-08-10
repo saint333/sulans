@@ -1,7 +1,8 @@
 'use client';
 
 import { PageLayout } from '@/presentation/components/layout/page-layout';
-import { LogIn, UserPlus, Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
+import { Input, PasswordInput } from '@/presentation/components/ui/input';
+import { LogIn, UserPlus, Mail, Lock, User } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/presentation/components/ui/card';
 import { Button } from '@/presentation/components/ui/button';
 import { APP_CONFIG, COLORS } from '@/shared/constants/app.constants';
@@ -12,8 +13,6 @@ import { useState } from 'react';
  */
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
     <PageLayout>
@@ -56,96 +55,48 @@ export default function LoginPage() {
             <form className="space-y-6">
               {/* Nombre completo (solo en registro) */}
               {!isLogin && (
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Nombre completo
-                  </label>
-                  <div className="relative">
-                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                    <input
-                      type="text"
-                      id="name"
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#36d6fa] focus:border-[#36d6fa] dark:bg-gray-700 dark:text-white"
-                      placeholder="Tu nombre completo"
-                      required
-                    />
-                  </div>
-                </div>
+                <Input
+                  type="text"
+                  id="name"
+                  name="name"
+                  label="Nombre completo"
+                  placeholder="Tu nombre completo"
+                  icon={User}
+                  required
+                />
               )}
 
               {/* Email */}
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Email
-                </label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <input
-                    type="email"
-                    id="email"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#36d6fa] focus:border-[#36d6fa] dark:bg-gray-700 dark:text-white"
-                    placeholder="tu@email.com"
-                    required
-                  />
-                </div>
-              </div>
+              <Input
+                type="email"
+                id="email"
+                name="email"
+                label="Email"
+                placeholder="tu@email.com"
+                icon={Mail}
+                required
+              />
 
               {/* Contraseña */}
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Contraseña
-                </label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    id="password"
-                    className="w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#36d6fa] focus:border-[#36d6fa] dark:bg-gray-700 dark:text-white"
-                    placeholder="Tu contraseña"
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                  </button>
-                </div>
-              </div>
+              <PasswordInput
+                id="password"
+                name="password"
+                label="Contraseña"
+                placeholder="Tu contraseña"
+                icon={Lock}
+                required
+              />
 
               {/* Confirmar contraseña (solo en registro) */}
               {!isLogin && (
-                <div>
-                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Confirmar contraseña
-                  </label>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                    <input
-                      type={showConfirmPassword ? "text" : "password"}
-                      id="confirmPassword"
-                      className="w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#36d6fa] focus:border-[#36d6fa] dark:bg-gray-700 dark:text-white"
-                      placeholder="Confirma tu contraseña"
-                      required
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                    >
-                      {showConfirmPassword ? (
-                        <EyeOff className="h-4 w-4" />
-                      ) : (
-                        <Eye className="h-4 w-4" />
-                      )}
-                    </button>
-                  </div>
-                </div>
+                <PasswordInput
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  label="Confirmar contraseña"
+                  placeholder="Confirma tu contraseña"
+                  icon={Lock}
+                  required
+                />
               )}
 
               {/* Recordar sesión / Términos */}
