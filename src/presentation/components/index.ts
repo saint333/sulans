@@ -4,6 +4,9 @@ export { Header } from './layout/header';
 export { Footer } from './layout/footer';
 export { ThemeToggle } from './layout/theme-toggle';
 
+// Auth components
+export { ProtectedRoute } from './auth/protected-route';
+
 // Section components
 export { PageHero } from './sections/page-hero';
 export { CallToAction } from './sections/call-to-action';

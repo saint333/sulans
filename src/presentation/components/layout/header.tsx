@@ -1,17 +1,24 @@
-import { GraduationCap } from 'lucide-react';
+'use client';
+
+import { GraduationCap, LogOut, User } from 'lucide-react';
 import { COLORS, APP_CONFIG, NAVIGATION } from '../../../shared/constants/app.constants';
 import { ThemeToggle } from '../layout/theme-toggle';
+import { useAuth } from '@/shared/hooks/use-auth';
+import { Button } from '@/presentation/components/ui/button';
 import Link from 'next/link';
 
 /**
  * Componente Header principal de la aplicación
  */
 export function Header() {
+  const { user, isAuthenticated, logout } = useAuth();
+
   return (
     <header className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-[#36d6fa]/20 dark:border-[#36d6fa]/30 shadow-sm">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          {/* Logo y título con link al inicio */}
+          <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <div 
               className="w-10 h-10 rounded-full flex items-center justify-center"
               style={{
@@ -28,18 +35,61 @@ export function Header() {
             >
               {APP_CONFIG.APP_NAME} {APP_CONFIG.GRADUATION_YEAR}
             </h1>
-          </div>
+          </Link>
 
+          {/* Navegación */}
           <nav className="hidden md:flex gap-6 items-center">
-            <HeaderLink href={NAVIGATION.GALLERY}>Galería</HeaderLink>
-            <HeaderLink href={NAVIGATION.EVENTS}>Eventos</HeaderLink>
-            <HeaderLink href={NAVIGATION.STUDENTS}>Estudiantes</HeaderLink>
+            {/* Links públicos */}
             <HeaderLink href={NAVIGATION.CONTACT}>Contacto</HeaderLink>
-            <HeaderLink href={NAVIGATION.LOGIN}>Iniciar Sesión</HeaderLink>
+            
+            {/* Links privados - solo para usuarios autenticados */}
+            {isAuthenticated && (
+              <>
+                <HeaderLink href={NAVIGATION.GALLERY}>Galería</HeaderLink>
+                <HeaderLink href={NAVIGATION.EVENTS}>Eventos</HeaderLink>
+                <HeaderLink href={NAVIGATION.STUDENTS}>Estudiantes</HeaderLink>
+              </>
+            )}
+
+            {/* Autenticación */}
+            {isAuthenticated ? (
+              <div className="flex items-center gap-4">
+                {/* Información del usuario */}
+                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+                  <User className="h-4 w-4" />
+                  <span>Hola, {user?.name}</span>
+                </div>
+                
+                {/* Botón de logout */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={logout}
+                  className="flex items-center gap-2"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Salir
+                </Button>
+              </div>
+            ) : (
+              <HeaderLink href={NAVIGATION.LOGIN}>Iniciar Sesión</HeaderLink>
+            )}
+
             <ThemeToggle />
           </nav>
 
-          <div className="md:hidden">
+          {/* Menú móvil - simplificado */}
+          <div className="md:hidden flex items-center gap-2">
+            {isAuthenticated && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={logout}
+                className="p-2"
+              >
+                <LogOut className="h-4 w-4" />
+              </Button>
+            )}
             <ThemeToggle />
           </div>
         </div>

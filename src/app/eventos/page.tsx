@@ -1,6 +1,7 @@
 import { PageLayout } from '@/presentation/components/layout/page-layout';
 import { PageHero } from '@/presentation/components/sections/page-hero';
 import { CallToAction } from '@/presentation/components/sections/call-to-action';
+import { ProtectedRoute } from '@/presentation/components/auth/protected-route';
 import { Calendar, MapPin, Clock, Users, Star } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/presentation/components/ui/card';
 import { Button } from '@/presentation/components/ui/button';
@@ -11,6 +12,17 @@ import { formatDate } from '@/shared/utils/date.utils';
  * Página de eventos
  */
 export default function EventsPage() {
+  return (
+    <ProtectedRoute>
+      <EventsContent />
+    </ProtectedRoute>
+  );
+}
+
+/**
+ * Contenido de eventos (protegido)
+ */
+function EventsContent() {
   return (
     <PageLayout>
       <PageHero

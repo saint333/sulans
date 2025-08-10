@@ -4,6 +4,7 @@ import { PageHero } from '@/presentation/components/sections/page-hero';
 import { StatsCard } from '@/presentation/components/sections/stats-card';
 import { CallToAction } from '@/presentation/components/sections/call-to-action';
 import { SearchInput } from '@/presentation/components/ui/input';
+import { ProtectedRoute } from '@/presentation/components/auth/protected-route';
 import { Users, MapPin, Mail, Phone, Briefcase, Search, Filter } from 'lucide-react';
 import { Card, CardContent } from '@/presentation/components/ui/card';
 import { Button } from '@/presentation/components/ui/button';
@@ -14,6 +15,17 @@ import Image from 'next/image';
  * Página de estudiantes
  */
 export default function StudentsPage() {
+  return (
+    <ProtectedRoute>
+      <StudentsContent />
+    </ProtectedRoute>
+  );
+}
+
+/**
+ * Contenido de la página de estudiantes (protegido)
+ */
+function StudentsContent() {
   const stats = [
     { value: 35, label: 'Estudiantes' },
     { value: 28, label: 'En contacto' },

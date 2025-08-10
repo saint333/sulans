@@ -2,17 +2,56 @@
 
 import { PageLayout } from '@/presentation/components/layout/page-layout';
 import { Input, PasswordInput } from '@/presentation/components/ui/input';
-import { LogIn, UserPlus, Mail, Lock, User } from 'lucide-react';
+import { LogIn, UserPlus, Mail, Lock, User, AlertCircle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/presentation/components/ui/card';
 import { Button } from '@/presentation/components/ui/button';
 import { APP_CONFIG, COLORS } from '@/shared/constants/app.constants';
-import { useState } from 'react';
+import { useAuth } from '@/shared/hooks/use-auth';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 /**
  * Página de login y registro
  */
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const { login, isAuthenticated } = useAuth();
+  const router = useRouter();
+
+  // Redirigir si ya está autenticado
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push('/');
+    }
+  }, [isAuthenticated, router]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
+
+    if (isLogin) {
+      // Proceso de login
+      const result = await login(email, password);
+      if (!result.success) {
+        setError(result.error || 'Error al iniciar sesión');
+      }
+    } else {
+      // Proceso de registro (simplificado para demo)
+      setError('El registro no está disponible. Contacta al administrador.');
+    }
+
+    setIsLoading(false);
+  };
+
+  if (isAuthenticated) {
+    return null; // Evitar flash mientras redirige
+  }
 
   return (
     <PageLayout>
@@ -52,7 +91,17 @@ export default function LoginPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <form className="space-y-6">
+            {/* Mensaje de error */}
+            {error && (
+              <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                <div className="flex items-center gap-2 text-red-700 dark:text-red-400">
+                  <AlertCircle className="h-4 w-4" />
+                  <span className="text-sm">{error}</span>
+                </div>
+              </div>
+            )}
+
+            <form className="space-y-6" onSubmit={handleSubmit}>
               {/* Nombre completo (solo en registro) */}
               {!isLogin && (
                 <Input
@@ -74,6 +123,8 @@ export default function LoginPage() {
                 label="Email"
                 placeholder="tu@email.com"
                 icon={Mail}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
 
@@ -84,6 +135,8 @@ export default function LoginPage() {
                 label="Contraseña"
                 placeholder="Tu contraseña"
                 icon={Lock}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
               />
 
@@ -112,9 +165,12 @@ export default function LoginPage() {
                         Recordar sesión
                       </span>
                     </label>
-                    <a href="#" className="text-[#36d6fa] hover:underline">
+                    <button
+                      type="button"
+                      className="text-[#36d6fa] hover:underline"
+                    >
                       ¿Olvidaste tu contraseña?
-                    </a>
+                    </button>
                   </>
                 ) : (
                   <label className="flex items-start">
@@ -125,9 +181,12 @@ export default function LoginPage() {
                     />
                     <span className="ml-2 text-gray-600 dark:text-gray-400">
                       Acepto los{' '}
-                      <a href="#" className="text-[#36d6fa] hover:underline">
+                      <button
+                        type="button"
+                        className="text-[#36d6fa] hover:underline"
+                      >
                         términos y condiciones
-                      </a>
+                      </button>
                     </span>
                   </label>
                 )}
@@ -139,16 +198,26 @@ export default function LoginPage() {
                 variant="primary" 
                 size="lg" 
                 className="w-full"
+                disabled={isLoading}
               >
-                {isLogin ? (
+                {isLoading ? (
                   <>
-                    <LogIn className="h-5 w-5 mr-2" />
-                    Iniciar Sesión
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                    {isLogin ? 'Iniciando...' : 'Creando...'}
                   </>
                 ) : (
                   <>
-                    <UserPlus className="h-5 w-5 mr-2" />
-                    Crear Cuenta
+                    {isLogin ? (
+                      <>
+                        <LogIn className="h-5 w-5 mr-2" />
+                        Iniciar Sesión
+                      </>
+                    ) : (
+                      <>
+                        <UserPlus className="h-5 w-5 mr-2" />
+                        Crear Cuenta
+                      </>
+                    )}
                   </>
                 )}
               </Button>
@@ -184,7 +253,7 @@ export default function LoginPage() {
         </Card>
 
         {/* Información adicional */}
-        <div className="mt-8 text-center">
+        <div className="mt-8 space-y-4">
           <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-[#36d6fa]/20">
             <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-2">
               Promoción {APP_CONFIG.GRADUATION_YEAR}
@@ -192,6 +261,29 @@ export default function LoginPage() {
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Únete a la comunidad digital de nuestra promoción. Comparte recuerdos, mantente conectado y participa en nuestras reuniones.
             </p>
+          </div>
+
+          {/* Credenciales de prueba */}
+          <div className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-6 shadow-lg border border-blue-200 dark:border-blue-800">
+            <h3 className="text-lg font-bold text-blue-800 dark:text-blue-200 mb-3">
+              🧪 Credenciales de Prueba
+            </h3>
+            <div className="space-y-2 text-sm">
+              <div>
+                <strong className="text-blue-700 dark:text-blue-300">Administrador:</strong>
+                <div className="ml-4 text-blue-600 dark:text-blue-400">
+                  Email: admin@promocion2024.com<br />
+                  Contraseña: admin123
+                </div>
+              </div>
+              <div>
+                <strong className="text-blue-700 dark:text-blue-300">Estudiante:</strong>
+                <div className="ml-4 text-blue-600 dark:text-blue-400">
+                  Email: estudiante@promocion2024.com<br />
+                  Contraseña: estudiante123
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

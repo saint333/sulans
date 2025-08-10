@@ -1,6 +1,7 @@
 import { PageLayout } from '@/presentation/components/layout/page-layout';
 import { PageHero } from '@/presentation/components/sections/page-hero';
 import { CallToAction } from '@/presentation/components/sections/call-to-action';
+import { ProtectedRoute } from '@/presentation/components/auth/protected-route';
 import { Camera, Image as ImageIcon, Download, Heart } from 'lucide-react';
 import { Card, CardHeader, CardTitle } from '@/presentation/components/ui/card';
 import { Button } from '@/presentation/components/ui/button';
@@ -10,6 +11,17 @@ import { APP_CONFIG } from '@/shared/constants/app.constants';
  * Página de galería de fotos
  */
 export default function GalleryPage() {
+  return (
+    <ProtectedRoute>
+      <GalleryContent />
+    </ProtectedRoute>
+  );
+}
+
+/**
+ * Contenido de la galería (protegido)
+ */
+function GalleryContent() {
   return (
     <PageLayout>
       <PageHero
