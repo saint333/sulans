@@ -49,8 +49,16 @@ export default function LoginPage() {
     setIsLoading(false);
   };
 
-  if (isAuthenticated) {
-    return null; // Evitar flash mientras redirige
+  if (isAuthenticated || isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-[#36d6fa] mx-auto mb-6"></div>
+          <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Por favor espera...</h2>
+          <p className="text-gray-500 dark:text-gray-400">Estamos procesando tu solicitud.</p>
+        </div>
+      </div>
+    );
   }
 
   return (

@@ -83,6 +83,7 @@ export const authOptions: NextAuthOptions = {
   ],
   session: {
     strategy: 'jwt' as const,
+    maxAge: 86400, // La sesión dura un día (24 horas)
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -102,5 +103,6 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/login',
     error: '/login',
+    verifyRequest: '/login',
   },
 };

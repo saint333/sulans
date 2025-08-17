@@ -1,6 +1,6 @@
 "use client"
 
-import { ThemeProvider as NextThemesProvider } from "next-themes"
+import { ThemeProvider as NextThemesProvider, useTheme as useNextTheme } from "next-themes"
 import { ReactNode } from "react"
 
 interface ThemeProviderProps {
@@ -31,3 +31,8 @@ export function ThemeProvider({
     </NextThemesProvider>
   )
 }
+
+export const useTheme = () => {
+  const { theme, setTheme } = useNextTheme();
+  return { theme, setTheme };
+};
