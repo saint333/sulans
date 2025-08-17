@@ -1,7 +1,5 @@
 'use client';
 
-import { PageLayout } from '@/presentation/components/layout/page-layout';
-import { ProtectedRoute } from '@/presentation/components/auth/protected-route';
 import { useAuth } from '@/shared/hooks/use-auth';
 import { 
   LayoutDashboard, 
@@ -22,21 +20,9 @@ import Link from 'next/link';
  * Página de Dashboard
  */
 export default function DashboardPage() {
-  return (
-    <ProtectedRoute>
-      <DashboardContent />
-    </ProtectedRoute>
-  );
-}
-
-/**
- * Contenido del Dashboard (protegido)
- */
-function DashboardContent() {
   const { user } = useAuth();
 
   return (
-    <PageLayout>
       <div className="container mx-auto py-8">
         {/* Header del Dashboard */}
         <div className="mb-8">
@@ -196,7 +182,6 @@ function DashboardContent() {
           </div>
         </div>
       </div>
-    </PageLayout>
   );
 }
 

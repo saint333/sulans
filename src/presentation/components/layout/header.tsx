@@ -1,14 +1,12 @@
 "use client";
 
-import { GraduationCap, LogOut, User } from "lucide-react";
+import { GraduationCap } from "lucide-react";
 import {
   COLORS,
   APP_CONFIG,
   NAVIGATION,
 } from "../../../shared/constants/app.constants";
 import { ThemeToggle } from "../layout/theme-toggle";
-import { useAuth } from "@/shared/hooks/use-auth";
-import { Button } from "@/presentation/components/ui/button";
 import Link from "next/link";
 import { useTheme } from "@/presentation/components/layout/theme-provider";
 import { useHydration } from "@/shared/hooks/use-hydration";
@@ -17,7 +15,6 @@ import { useHydration } from "@/shared/hooks/use-hydration";
  * Componente Header principal de la aplicación
  */
 export function Header() {
-  const { user, isAuthenticated, logout } = useAuth();
   const { theme } = useTheme();
   const hydrated = useHydration();
 
@@ -33,7 +30,7 @@ export function Header() {
       className={`sticky top-0 z-50 ${backgroundColor} backdrop-blur-md border-b ${borderColor} shadow-md transition-colors duration-300`}
     >
       <div className='container mx-auto px-4 py-4'>
-        <div className='flex items-center justify-between'>
+        <div className='flex items-center justify-between flex-col sm:flex-row'>
           {/* Logo y título con link al inicio */}
           <Link
             href='/'
@@ -61,50 +58,14 @@ export function Header() {
           <nav className='hidden md:flex gap-6 items-center'>
             {/* Links públicos */}
             <HeaderLink href={NAVIGATION.CONTACT}>Contacto</HeaderLink>
-
-            {/* Links privados - solo para usuarios autenticados */}
-            {isAuthenticated && (
-              <>
-                <HeaderLink href={NAVIGATION.GALLERY}>Galería</HeaderLink>
-                <HeaderLink href={NAVIGATION.EVENTS}>Eventos</HeaderLink>
-                <HeaderLink href={NAVIGATION.STUDENTS}>Estudiantes</HeaderLink>
-              </>
-            )}
-
-            {/* Autenticación */}
-            {isAuthenticated ? (
-              <div className='flex items-center gap-4'>
-                {/* Información del usuario */}
-                <div className='flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300'>
-                  <User className='h-4 w-4' />
-                  <span>Hola, {user?.name}</span>
-                </div>
-
-                {/* Botón de logout */}
-                <Button
-                  variant='outline'
-                  size='sm'
-                  onClick={logout}
-                  className='flex items-center gap-2'
-                >
-                  <LogOut className='h-4 w-4' />
-                  Salir
-                </Button>
-              </div>
-            ) : (
-              <HeaderLink href={NAVIGATION.LOGIN}>Iniciar Sesión</HeaderLink>
-            )}
-
+            <HeaderLink href={NAVIGATION.LOGIN}>Iniciar Sesión</HeaderLink>
             <ThemeToggle />
           </nav>
 
           {/* Menú móvil - simplificado */}
           <div className='md:hidden flex items-center gap-2'>
-            {isAuthenticated && (
-              <Button variant='outline' onClick={logout}>
-                <LogOut className='h-4 w-4 mr-2' /> Salir
-              </Button>
-            )}
+            <HeaderLink href={NAVIGATION.LOGIN}>Iniciar Sesión</HeaderLink>
+            <ThemeToggle />
           </div>
         </div>
       </div>
